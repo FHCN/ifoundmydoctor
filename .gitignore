@@ -1,0 +1,5 @@
+**/*.timthumb.txt
+.DS_Store
+*.sql
+*.log
+wp-content/uploads

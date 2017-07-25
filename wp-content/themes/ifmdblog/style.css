@@ -1,0 +1,154 @@
+/*
+ Theme Name:   IFMDCom Child
+ Theme URI:    http://example.com/twenty-fifteen-child/
+ Description:  Twenty Fifteen Child Theme
+ Author:       John Doe
+ Author URI:   http://example.com
+ Template:     twentythirteen
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  twenty-thirteen-child
+*/
+
+/* General */
+body {
+    background: url('images/bg.png') repeat 0 0;
+}
+
+.blog-content,
+.category-content,
+.tag-content {
+    width: 960px;
+    margin: 0 auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.category-content > .posts-container,
+.tag-content > .posts-container,
+.entry-content > .posts-container,
+.blog-content > .posts-container,
+.blog-content > article {
+    float: left;
+    width: 55%;
+}
+
+.entry-content {
+    max-width: inherit;
+}
+
+#sidebar {
+    float: right;
+    width: 35%;
+}
+
+.site {
+    background-color: inherit;
+}
+
+.featured-image {
+    padding-right: 15px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.clearfix {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+/* widget */
+#sidebar li {
+    background-color: inherit;
+    list-style: none;
+}
+
+#sidebar h3 {
+    color: #cf3465;
+}
+
+/* Navigation */
+
+.navigation a,
+.navigation li a {
+    color: #cf3465;
+}
+
+.navigation a:hover,
+.navigation li a:hover {
+    background-color: inherit;
+    text-decoration: underline;
+    color: #cf3465;
+}
+
+/* links */
+a {
+    color: #cf3465 !important;
+}
+
+
+a:visited {
+    color: #cf3465 !important;
+}
+
+a:hover {
+    color: #cf3465 !important;
+    text-decoration: underline;
+}
+
+.entry-content a,
+.entry-content a:visited,
+.entry-content a:hover {
+    color: #cf3465;
+}
+
+/* comment section */
+.comment-respond {
+    background-color: #a2cdcf;
+}
+
+.comment-form [for="email"],
+.comment-form [for="author"],
+.comment-form [for="url"] {
+    float: none;
+    padding-left: 15px;
+}
+
+.comment-form label {
+    padding-left: 15px;
+}
+
+/* Header */
+
+.site-header {
+    background-size: contain !important;
+}
+
+.archive-header {
+    background-color: inherit;
+}
+
+/* Fields */
+button, input, textarea {
+    border: 2px solid #cae1e1;
+}
+
+/* footer */
+.site-footer {
+    background-color: #cf3465;
+    color: #ffffff;
+}
+
+.site-footer hr {
+    margin: 0;
+}
+
+.single .author-info {
+    padding-top: 10px;
+}
