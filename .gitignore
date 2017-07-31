@@ -3,4 +3,5 @@
 *.sql
 *.log
 *.pdf
+.vscode
 wp-content/uploads

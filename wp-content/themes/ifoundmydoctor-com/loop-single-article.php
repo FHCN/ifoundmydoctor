@@ -134,6 +134,9 @@
 							}
 
 						}
+
+						$locations_number = count($location);
+						$location = ifg_sort_locations_by_name($location);
 						if ($location[0]->post_type == 'location') {
 							$practice_name = $location[0]->post_title;
 						} else {
@@ -194,9 +197,34 @@
 						endif;
 						if (!empty($website_link)): ?>
 						<a href="<?php echo esc_attr($website_link); ?>"><?php echo $website_link; ?></a>
-					<?php endif ?>
+				<?php endif ?>
 				</ul><!-- /.widget-dr-info -->
 			<ul class="widgets">
+				<?php if ($locations_number > 1): ?>
+					<li class="widget-locations <?php if($locations_number==2) echo 'single-location'; ?>">
+						<h3 class="widgettitle">MORE LOCATIONS</h3>
+						<ul>
+							<?php
+							for ($i = 1; $i < $locations_number; $i++) :
+								$street_address = get_post_meta($location[$i]->ID, '_location_' . $prefix . 'address', true);
+								$city = get_post_meta($location[$i]->ID, '_location_' . $prefix . 'city', true);
+								$zip = get_post_meta($location[$i]->ID, '_location_' . $prefix . 'zip', true);
+								$state = get_post_meta($location[$i]->ID, '_location_' . $prefix . 'state', true);
+								$phone = get_post_meta($location[$i]->ID, '_location_' . $prefix . 'telephone', true);
+								?>
+								<li>
+									<h3 class="widgettitle"><?php echo $city ?></h3>
+									<?php echo $street_address; ?>
+									<?php echo $city . ', ' . $state . ' ' . $zip; ?><br />
+									<a href="tel:+<?php echo preg_replace('/[()-.\s]+/', '', $phone); ?>"><?php echo $phone; ?></a>
+								</li>
+								<?php if ($i % 2 == 0): ?>
+									<li class="cl">&nsbp;</li>
+								<?php endif ?>
+							<?php endfor; ?>
+						</ul>
+					</li><!-- /.widget-locations -->
+				<?php endif ?>
 				<li class="widget-square-ad">
 					<ul>
 						<li><?php echo get_option('ifc_google_ads_script_square'); ?></li>
