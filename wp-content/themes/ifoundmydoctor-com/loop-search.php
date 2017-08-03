@@ -87,4 +87,3 @@ $resultsHtml = <<<HTML
 HTML;
 
 echo $resultsHtml;
-

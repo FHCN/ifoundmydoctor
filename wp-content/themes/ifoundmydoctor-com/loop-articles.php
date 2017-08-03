@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $year;
 global $min_date;
 global $max_date;
@@ -23,7 +23,7 @@ $selected_quarter = 0;
 
 $post_request = FALSE;
 if (($_SERVER['REQUEST_METHOD'] == 'GET') && (isset($_GET['ifd_action']))) {
-	$post_request = TRUE;	
+	$post_request = TRUE;
 	//If Edition has been selected
 	if (is_numeric($_GET['ifd_edition'])) {
 		$selected_term = intval($_GET['ifd_edition']);
@@ -75,7 +75,7 @@ if ($selected_quarter) {
 
 		if ($term && !is_wp_error($term)) {
 			$quarter_terms[] = $term->slug;
-		}		
+		}
 	}
 
 	if ($quarter_terms) {
@@ -84,7 +84,7 @@ if ($selected_quarter) {
 			'field'		=>	'slug',
 			'terms'		=>	$quarter_terms,
 			'operator' => 'IN'
-		);		
+		);
 
 	}
 }
@@ -95,8 +95,8 @@ if ($selected_term) {
 		'taxonomy'	=>	'edition',
 		'field'		=>	'id',
 		'terms'		=>	array($selected_term)
-	);	
-}	
+	);
+}
 
 $final_args['tax_query'] = $tax_args;
 
@@ -140,36 +140,36 @@ $now = new DateTime();
         <li>
 			<h4><?php the_title(); ?></h4>
 			<p class="meta">
-			<?php //getting the editions 
+			<?php //getting the editions
 				  $article_editions = get_the_terms(get_the_id(), 'edition');
-				  if ($article_editions) :			
+				  if ($article_editions) :
 			?>
 			<strong>Edition:</strong>
 			<?php $output = '<span>';
 				  foreach ($article_editions as $edition) {
 					$output .= $edition->name . ', ';
-				  } 
+				  }
 				  $output[strlen($output) - 2] = '';
-				  $output .= '</span>';	
+				  $output .= '</span>';
 				  echo $output;
 			?>
-			<?php endif; ?>	
-			<?php 
+			<?php endif; ?>
+			<?php
 			$terms = wp_get_object_terms($post->ID, 'date_published');
 			$month_number = get_the_time('n', $post->ID);
 			$season_name = count($terms) > 1 ? $terms[count($terms)-1]->name : ifd_get_season($month_number);
 			$season_name = str_ireplace(' issue', '', $season_name);
-			$year = !empty($terms[0]) ? $terms[0]->name : get_the_time('Y', $post->ID); 
+			$year = !empty($terms[0]) ? $terms[0]->name : get_the_time('Y', $post->ID);
 			?>
 			<span><strong>Published:</strong> <?php echo $season_name . ' ' . $year; ?></span></p>
 			<a href="<?php echo get_permalink(get_the_id()); ?>" class="result-thumb">
-				<?php 
-				$thumb = ''; 
-				$thumbnail = wp_get_attachment_image_src ( get_post_thumbnail_id ( get_the_id() ), 'thumbnail' ) ; 
+				<?php
+				$thumb = '';
+				$thumbnail = wp_get_attachment_image_src ( get_post_thumbnail_id ( get_the_id() ), 'thumbnail' ) ;
 				if (empty($thumbnail)) {
-					$thumb = '<img src="' . get_bloginfo('stylesheet_directory') . '/images/' . 'no_image.jpg' . '" alt="' . esc_attr(get_the_title()) . '"/>'; 
+					$thumb = '<img src="' . get_bloginfo('stylesheet_directory') . '/images/' . 'no_image.jpg' . '" alt="' . esc_attr(get_the_title()) . '"/>';
 				} else {
-					$thumb = $thumbnail[0]; 
+					$thumb = $thumbnail[0];
 				}
 
                 // If a mini_thumb is associated with the id then set the thumbnail to be the mini thumbnail.
@@ -179,7 +179,7 @@ $now = new DateTime();
                 }
 			?>
 			<?php if (!empty($thumbnail)): ?>
-			<img src="<?php bloginfo('stylesheet_directory'); ?>/scripts/tt.php?src=<?php echo $thumb; ?>&q=100&zc=1&w=103&h=103" /> 
+			<img src="<?php bloginfo('stylesheet_directory'); ?>/scripts/tt.php?src=<?php echo $thumb; ?>&q=100&zc=1&w=103&h=103" />
 			<?php else: ?>
 			<?php echo $thumb; ?>
 			<?php endif; ?>
@@ -197,7 +197,7 @@ $now = new DateTime();
 		<div class="pagination right">
 			<span class="number">Page <?php echo max(1, get_query_var('paged')); ?> of <?php echo $the_query->max_num_pages; ?></span>
 			<div class="all-pages">
-			<?php 
+			<?php
 					$big = 999999999; // This needs to be an unlikely integer
 					echo paginate_links(array(
 										'base' => str_replace( $big, '%#%', get_pagenum_link($big) ),
@@ -206,13 +206,13 @@ $now = new DateTime();
 										'current' => max(1, get_query_var('paged')),
 										'prev_text' => '< Previous',
 										'next_text' => 'Next >',
-										'mid_size' => 5	
+										'mid_size' => 5
 			)); ?>
 			</div><!-- end of all pages -->
 		</div>
 		<div class="cl">&nbsp;</div>
 	<?php endif; ?>
-	
+
 <?php else : ?>
 	<li class="not-found">
 		<?php if ($post_request): ?>
@@ -223,7 +223,7 @@ $now = new DateTime();
 			<p>Enter the parameters of your search - above.</p>
 		</div>
 		<?php endif ?>
-		
+
 	</li>
 <?php endif; ?>
 <?php wp_reset_postdata(); ?>

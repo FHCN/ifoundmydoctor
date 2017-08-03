@@ -1,4 +1,4 @@
-<?php 
+<?php
 	get_header();
 ?>
 <div id="main" class="subpage">
@@ -9,8 +9,8 @@
 				<?php } elseif( is_tag() ) { ?>
 					Posts Tagged &#8216;<?php single_tag_title(); ?>&#8217;
 				<?php } elseif( is_tax('date_published') ) { ?>
-					<?php 
-					echo $wp_query->queried_object->name; 
+					<?php
+					echo $wp_query->queried_object->name;
 					if ($wp_query->queried_object->parent) {
 						$parent_term = get_term_by('id', $wp_query->queried_object->parent, 'date_published');
 						if ($parent_term) {
@@ -31,13 +31,13 @@
 				<?php } ?>
 		</div><!-- /.page-title -->
 		<div id="content">
-			<?php 
+			<?php
 				global $page_access;
 				$page_access = 'edition';
 				if (is_category() || is_tag() || is_day() || is_month() || is_year() || is_author()) {
 					$page_access = 'blog';
 				}
-				ifd_print_the_breadcrumb($page_access); 
+				ifd_print_the_breadcrumb($page_access);
 			?>
 			<?php //ifd_print_the_breadcrumb(); ?>
 			<div class="article blog-artilces">

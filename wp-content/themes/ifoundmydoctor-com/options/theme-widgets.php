@@ -3,13 +3,13 @@
 * Register the new widget classes here so that they show up in the widget list
 */
 function load_widgets() {
-	
+
 	register_widget('LatestTweets');
 	register_widget('IFDTextButtonWidget');
 	register_widget('IDFLatestNews');
 	register_widget('IDFPageArticleWidget');
 	register_widget('IDFGoogleAdsHorizontal');
-	register_widget('IDFGoogleAdsSquare'); 
+	register_widget('IDFGoogleAdsSquare');
 	register_widget('IDFFeauturedDoctors');
 	register_widget('IDFRecentPosts');
 }
@@ -19,7 +19,7 @@ add_action('widgets_init', 'load_widgets');
 * Displays a block with latest tweets from particular user
 */
 class LatestTweets extends ThemeWidgetBase {
-	function LatestTweets() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'theme-widget',
 			'description' => 'Displays a block with your latest tweets'
@@ -46,7 +46,7 @@ class LatestTweets extends ThemeWidgetBase {
 			),
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -74,7 +74,7 @@ class IFDTextButtonWidget extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IFDTextButtonWidget() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'home-top-text-button-widget', // class of the <li> holder
 			'description' => __( 'Displays a block with title, text and button.' ) // description shown in the widget list
@@ -95,24 +95,24 @@ class IFDTextButtonWidget extends ThemeWidgetBase {
 			array(
 				'name'=>'text',
 				'type'=>'textarea',
-				'title'=>'Content', 
+				'title'=>'Content',
 				'default'=>'Lorem Ipsum dolor sit amet'
 			),
 			array(
 				'name'=>'link',
 				'type'=>'text',
-				'title'=>'Link', 
+				'title'=>'Link',
 				'default'=>'#'
 			),
 			array(
 				'name'=>'link_caption',
 				'type'=>'text',
-				'title'=>'Link Caption', 
+				'title'=>'Link Caption',
 				'default'=>'Begin Search'
 			)
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -134,7 +134,7 @@ class IDFLatestNews extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IDFLatestNews() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'widget-news', // class of the <li> holder
 			'description' => __( 'Displays a block with the latest news.' ) // description shown in the widget list
@@ -145,7 +145,7 @@ class IDFLatestNews extends ThemeWidgetBase {
 		);
 		// widget id, widget display title, widget options
 		$this->WP_Widget('ifd-latest-news-widget', 'News Widget', $widget_opts, $control_ops);
-		
+
 		$this->custom_fields = array(
 			array(
 				'name'=>'title', // field name
@@ -156,19 +156,19 @@ class IDFLatestNews extends ThemeWidgetBase {
 			array(
 				'name'=>'number_of_news',
 				'type'=>'integer',
-				'title'=>'Number of posts to show', 
+				'title'=>'Number of posts to show',
 				'default'=>2
 			),
 			array(
 				'name'=>'link',
 				'type'=>'text',
-				'title'=>'Link', 
+				'title'=>'Link',
 				'default'=>'#'
 			),
 			array(
 				'name'=>'orderby',
 				'type'=>'select',
-				'title'=>'Order', 
+				'title'=>'Order',
 				'options'=>array(
 								'post_date' 	=> 	'Date',
 								'menu_order'	=> 	'Menu Order',
@@ -178,12 +178,12 @@ class IDFLatestNews extends ThemeWidgetBase {
 			array(
 				'name'=>'order',
 				'type'=>'select',
-				'title'=>'Sort by', 
+				'title'=>'Sort by',
 				'options'=>array('DESC' => 'Descending', 'ASC'	=> 'Ascending')
 			)
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -199,14 +199,14 @@ class IDFLatestNews extends ThemeWidgetBase {
 		?>
 		<h3 class="widgettitle"><?php echo $instance['title']; ?></h3>
 		<ul>
-		<?php foreach ($all_news as $news): 
+		<?php foreach ($all_news as $news):
 		?>
 			<li>
 				<h4><?php echo $news->post_title; ?></h4>
 				<p><?php echo ifd_get_excerpt_max_charlength($news->post_content, 45); ?><br />
 				<a href="<?php echo get_permalink($news->ID); ?>">Read More</a></p>
 			</li>
-		<?php  $hide_desription = TRUE;	
+		<?php  $hide_desription = TRUE;
 			   endforeach ?>
 		</ul>
 		<?php
@@ -219,7 +219,7 @@ class IDFPageArticleWidget extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IDFPageArticleWidget() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'widget-about', // class of the <li> holder
 			'description' => __( 'Displays a block with the text and title of page.' ) // description shown in the widget list
@@ -248,18 +248,18 @@ class IDFPageArticleWidget extends ThemeWidgetBase {
 			array(
 				'name'=>'page',
 				'type'=>'select',
-				'title'=>'Page', 
+				'title'=>'Page',
 				'options'=>$all_pages_options
 			),
 			array(
 				'name'=>'what_to_use',
 				'type'=>'select',
-				'title'=>'Use', 
+				'title'=>'Use',
 				'options'=>array('custom_title' => 'Custom Title', 'page_title'	=> 'Page Title')
 			)
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -285,7 +285,7 @@ class IDFGoogleAdsHorizontal extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IDFGoogleAdsHorizontal() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'google-ads', // class of the <li> holder
 			'description' => __( 'Google Ads Script.' ) // description shown in the widget list
@@ -296,7 +296,7 @@ class IDFGoogleAdsHorizontal extends ThemeWidgetBase {
 		);
 		// widget id, widget display title, widget options
 		$this->WP_Widget('ifd-ads-horizontal', 'Google Ads Horizontal', $widget_opts, $control_ops);
-		
+
 		$this->custom_fields = array(
 			array(
 				'name'=>'script', // field name
@@ -306,7 +306,7 @@ class IDFGoogleAdsHorizontal extends ThemeWidgetBase {
 			)
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -322,7 +322,7 @@ class IDFGoogleAdsSquare extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IDFGoogleAdsSquare() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'widget-square-ad', // class of the <li> holder
 			'description' => __( 'Google Ads Script.' ) // description shown in the widget list
@@ -333,7 +333,7 @@ class IDFGoogleAdsSquare extends ThemeWidgetBase {
 		);
 		// widget id, widget display title, widget options
 		$this->WP_Widget('ifd-ads-square', 'Google Ads Square', $widget_opts, $control_ops);
-		
+
 		$this->custom_fields = array(
 			array(
 				'name'=>'script', // field name
@@ -343,7 +343,7 @@ class IDFGoogleAdsSquare extends ThemeWidgetBase {
 			)
 		);
 	}
-	
+
 	/*
 	* Called when rendering the widget in the front-end
 	*/
@@ -357,7 +357,7 @@ class IDFGoogleAdsSquare extends ThemeWidgetBase {
 */
 class IDFFeauturedDoctors extends ThemeWidgetBase {
 
-	function IDFFeauturedDoctors() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'widget-featured', // class of the <li> holder
 			'description' => __( 'Feautured Doctors' ) // description shown in the widget list
@@ -368,7 +368,7 @@ class IDFFeauturedDoctors extends ThemeWidgetBase {
 		);
 		// widget id, widget display title, widget options
 		$this->WP_Widget('ifd-feautured-doctors', 'Feautured Doctors', $widget_opts, $control_ops);
-		
+
 		$this->custom_fields = array(
 			array(
 				'name'=>'title', // field name
@@ -398,7 +398,7 @@ class IDFFeauturedDoctors extends ThemeWidgetBase {
 			)
 		);
 	}
-	
+
 
 	function front_end($args, $instance) {
 		extract($args);
@@ -416,9 +416,9 @@ class IDFFeauturedDoctors extends ThemeWidgetBase {
 <?php	foreach ($doctors as $doctor): ?>
 						<li>
 							<a href="<?php echo get_permalink($doctor->ID); ?>" class="featured-thumb">
-								<?php $thumbnail = wp_get_attachment_image_src ( get_post_thumbnail_id ( $doctor->ID ), 'thumbnail' ) ; 
+								<?php $thumbnail = wp_get_attachment_image_src ( get_post_thumbnail_id ( $doctor->ID ), 'thumbnail' ) ;
 								 ?>
-								<img src="<?php bloginfo('stylesheet_directory'); ?>/scripts/tt.php?src=<?php echo $thumbnail[0]; ?>&q=100&zc=1&w=61&h=69" /> 
+								<img src="<?php bloginfo('stylesheet_directory'); ?>/scripts/tt.php?src=<?php echo $thumbnail[0]; ?>&q=100&zc=1&w=61&h=69" />
 							</a>
 							<div class="featured-body">
 								<h4><?php echo $doctor->post_title; ?></h4>
@@ -430,7 +430,7 @@ class IDFFeauturedDoctors extends ThemeWidgetBase {
 <?php	endforeach; ?>
 		</ul>
 <?php
-	} 
+	}
 }
 
 /*
@@ -440,7 +440,7 @@ class IDFRecentPosts extends ThemeWidgetBase {
 	/*
 	* Register widget function. Must have the same name as the class
 	*/
-	function IDFRecentPosts() {
+	function __construct() {
 		$widget_opts = array(
 			'classname' => 'widget-own-articles', // class of the <li> holder
 			'description' => __( 'Recent Posts Widget' ) // description shown in the widget list
@@ -451,7 +451,7 @@ class IDFRecentPosts extends ThemeWidgetBase {
 		);
 		// widget id, widget display title, widget options
 		$this->WP_Widget('ifd-recent-posts', 'Recent Posts', $widget_opts, $control_ops);
-		
+
 		$this->custom_fields = array(
 			array(
 				'name'=>'number_of_posts', // field name
@@ -461,7 +461,7 @@ class IDFRecentPosts extends ThemeWidgetBase {
 			)
 		);
 	}
-	
+
 
 	function front_end($args, $instance) {
 		extract($args);
@@ -472,7 +472,7 @@ class IDFRecentPosts extends ThemeWidgetBase {
 		echo '<h3>Recent Posts</h3>'; ?>
 <ul>
 <?php		foreach ($recent_posts as $blogpost) : ?>
-			<li><h4><?php echo $blogpost->post_title; ?></h4><?php echo ifd_get_excerpt_max_charlength($blogpost->post_content, 140); ?> 
+			<li><h4><?php echo $blogpost->post_title; ?></h4><?php echo ifd_get_excerpt_max_charlength($blogpost->post_content, 140); ?>
 				<a href="<?php echo get_permalink($blogpost->ID); ?>">Read More</a></li>
 <?php		endforeach; ?>
 </ul>

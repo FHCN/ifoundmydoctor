@@ -25,12 +25,12 @@ function countWords(content){
 				}
 				cut_at_idx = (cut_at_idx == 0) ? 25 : cut_at_idx;
 				h4.text(h4_text.substring(0, cut_at_idx));
-				
+
 				$(this).next('p').prepend(h4_text.substring(cut_at_idx, h4_text.length) + '. ');
 			}
 		});
 
-		
+
 		$('.widget-own-articles').removeClass('widget-blog');
 		$('div.menu-find-us-on-container ul li a').attr('target', '_blank');
 		$('.editions div.section ul:first').css('padding-left', '0px');
@@ -40,7 +40,7 @@ function countWords(content){
 		$('div.article-control ul.pagination li').each(function() {
 			var th = $(this);
 			if (!th.parent('a').length) {	//it is the current element
-				
+
 				if (th.prev('a').length) {
 					prev_link  = th.prev('a').attr('href');
 				}
@@ -93,8 +93,8 @@ function countWords(content){
 						.closest('li').siblings('li').find('.outer-mask')
 						.css('display', 'none');
 					var position = $('.slide-thumbs li').eq(curidx).position();
-					
-					arrowPos = position.left + 38; 
+
+					arrowPos = position.left + 38;
 					$('.slider-arrow').animate({left: arrowPos+'px'}, 500);
 				}
 			}
@@ -138,7 +138,7 @@ function countWords(content){
 		last_li.text(last_breadcrumb);
 		last_li.addClass('active');
 
-		$('#search-form, #search-doctors-form').submit(function() { 
+		$('#search-form, #search-doctors-form').submit(function() {
 			var form = $(this);
 
 			if (form.find('#ifd_keywords').val() == form.find('#ifd_keywords').attr('title')) {
@@ -150,7 +150,7 @@ function countWords(content){
 					form.find('#ifd_zip').val('');
 				}
 				if (form.find('#ifd_keywords').val() == form.find('#ifd_keywords').attr('title')) {
-					form.find('#ifd_keywords').val('');	
+					form.find('#ifd_keywords').val('');
 				}
 			}
 

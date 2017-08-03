@@ -4,9 +4,9 @@ function object_cmp ($lhs_obj, $rhs_obj) {
 }
 class ECF_Field {
 	var $type;
-	
+
 	var $default_value;
-	
+
 	var $value, $values = array();
 
 	var $post_id;
@@ -80,7 +80,7 @@ class ECF_Field {
 			ecf_conf_error("Cannot load -- unknown POST ID");
 		}
         if ($this->is_subfield) {
-            # the field is already loaded by the multiply field... 
+            # the field is already loaded by the multiply field...
             return;
         }
 		$single = true;
@@ -210,7 +210,7 @@ class ECF_Field {
 			}
 		} else {
 			update_post_meta($this->post_id, $this->name, $this->value);
-			
+
 
 			//Additional - in the additional db
 			if (get_class($this) == 'ECF_FieldMap') {
@@ -218,12 +218,12 @@ class ECF_Field {
 				$temp_post = get_post($this->post_id);
 				/*var_dump($temp_post);
 				die();*/
-				
+
 				//
-				$query = "SELECT * FROM wp_doctors_locations WHERE location='" . $this->post_id . "'"; 
+				$query = "SELECT * FROM wp_doctors_locations WHERE location='" . $this->post_id . "'";
 				// echo $query;
 				$query_results = $wpdb->get_results($query);
-				
+
 				// if (count($query_results)) {
 
 				// }
@@ -233,9 +233,9 @@ class ECF_Field {
 				// var_dump($query_results);
 				// exit;
 				if (count($query_results)) {
-					$query = "UPDATE wp_doctors_locations SET wp_doctors_locations.lng='" . $coords[0] . "', wp_doctors_locations.ltd='" . $coords[1] . "' WHERE location='" . $this->post_id . "'";	
+					$query = "UPDATE wp_doctors_locations SET wp_doctors_locations.lng='" . $coords[0] . "', wp_doctors_locations.ltd='" . $coords[1] . "' WHERE location='" . $this->post_id . "'";
 				} else {
-					$query = "INSERT INTO wp_doctors_locations(id,user_id,lng,ltd, location) 
+					$query = "INSERT INTO wp_doctors_locations(id,user_id,lng,ltd, location)
 								VALUES(''," . $temp_post->post_parent . ", '" . $coords[0] . "','" . $coords[1] . "', '" . $this->post_id . "')";
 				}
 				$query_results = $wpdb->get_results($query);
@@ -358,7 +358,7 @@ class ECF_Field {
 			$temp_values_length = count($temp_values);
 
 			//Getting the alphabetic values for the meta value
-			for ($i=0; $i < $temp_values_length; $i++) { 
+			for ($i=0; $i < $temp_values_length; $i++) {
 				foreach ($this->options as $key => $value) {
 					if ($temp_values[$i]->meta_value == $key) {
 						$temp_values[$i]->meta_value = $value;
@@ -387,7 +387,7 @@ class ECF_Field {
 				$field->meta_id = $val->meta_id;
 				$field->value = $val->meta_value;
 				$field->is_subfield = true;
-				
+
 				if (isset($this->options)) {
                     if ($this->options) {
 					    $field->add_options($this->options);
@@ -453,16 +453,16 @@ class ECF_FieldTextarea extends ECF_Field {
 
 class ECF_FieldRichText extends ECF_FieldTextarea {
 	var $rows = 10;
-	
+
 	function rows($rows) {
 		$this->rows = $rows;
 		return $this;
 	}
-	
+
 	function render() {
 		global $wp_version;
 		ob_start();
-		
+
 		$val = (isset($this->value) ? $this->value : ( isset($this->default_value) ? $this->default_value : '') );
 
 		if (version_compare($wp_version, '3.3') >= 0) {
@@ -564,7 +564,7 @@ class ECF_FieldMultiplySelect extends ECF_Field {
 			'name'=>$this->name,
 		));
 		$final_html = $this->build_tag('select', $select_atts, $options);
-		
+
 		//Setting the input text feild
 		$input_atts = $this->build_html_atts(array(
 			'type'=>'text',
@@ -643,7 +643,7 @@ class ECF_FieldFile extends ECF_Field {
 
 	function load() {
 	    ECF_Field::load();
-	    
+
 	    // check for delete request
 		if (isset($_GET['delete_field']) && $_GET['delete_field']==$this->name && isset($_GET['delete_value']) && is_admin() ) {
 			$delete_value = urldecode($_GET['delete_value']);
@@ -666,7 +666,7 @@ class ECF_FieldFile extends ECF_Field {
 					exit();
 				}
 			}
-			
+
 			$this->delete($delete_value);
 			$this->delete_meta($this->post_id, $this->name, $delete_value);
 			header('Location: ' . $redirect_url);
@@ -842,7 +842,7 @@ class ECF_FieldSeparator extends ECF_Field {
 
 class ECF_FieldMap extends ECF_Field {
 	var $lat=37.423156, $long=-122.084917, $zoom=14;
-	
+
 	function init() {
 		$this->help_text = 'Double click on the map and marker will appear. Drag &amp; Drop the marker to new position on the map.';
 		ECF_Field::init();
@@ -878,8 +878,8 @@ class ECF_FieldAddress extends ECF_FieldTextarea {
 				$('#locate-on-map').click(function () {
 				    var address = $("#<?php echo $this->id ?>").val();
 					var geocoder = new google.maps.Geocoder();
-					geocoder.geocode( 
-						{ 'address': address}, 
+					geocoder.geocode(
+						{ 'address': address},
 						function(results, status) {
 				            if (status == google.maps.GeocoderStatus.OK) {
 				            	var coords = results[0].geometry.location;
@@ -930,7 +930,7 @@ function array_unshift_assoc(&$arr, $key, $val){
     $arr = array_reverse($arr, true);
     $arr[$key] = $val;
     return array_reverse($arr, true);
-} 
+}
 class ECF_FieldChooseSidebar extends ECF_FieldSelect {
 	// Whether to allow the user to add new sidebars
 	var $allow_adding = true;
@@ -982,7 +982,7 @@ class ECF_FieldChooseSidebar extends ECF_FieldSelect {
 	}
 	function render() {
 		$new_options = array();
-		
+
 		foreach ($this->options as $sidebar) {
 			if ($this->default_value == $sidebar) {
 				$new_options = array_unshift_assoc($new_options, $sidebar, $sidebar);
@@ -1315,7 +1315,7 @@ class ECF_FieldMedia extends ECF_Field {
 		wp_enqueue_script('fancybox', get_bloginfo('stylesheet_directory') . '/lib/scripts/fancybox/jquery.fancybox-1.3.4.pack.js');
 		wp_enqueue_style('fancybox-css', get_bloginfo('stylesheet_directory') . '/lib/scripts/fancybox/jquery.fancybox-1.3.4.css');
 	}
-	
+
 	function print_the_js() {
 	    ?>
 		<script type="text/javascript">
@@ -1334,10 +1334,10 @@ class ECF_FieldMedia extends ECF_Field {
 	        			onCleanup: function (){}
 					});
 					var input = $(this).parent('').find('input').not('#' + $(this).attr('id'));
-					
+
 					window.pb_medialibrary = function(html) {
 						var data = c2_unserialize(html);
-						
+
 						if ( data.url != undefined && data.url != '' ) {
 							$(input).val(data.url);
 							update_img_src(input, button, data.url);
@@ -1357,15 +1357,15 @@ class ECF_FieldMedia extends ECF_Field {
 						$.fancybox.close();
 						clicked = false;
 					} : orig_send_to_editor;
-					
+
 					if ( typeof(win) !== 'undefined' ) {
 						win.send_to_editor = function(html) {
 							var a = ( $('a', html).length != 0 )? $('a', html) : $('a', html).prevObject;
 							imgurl = ( $('img', html).length != 0 )? $('img', html).attr('src') : $(a).attr('href');
-							
+
 							$(input).val(imgurl);
 							update_img_src(input, button, imgurl, $('img', html).length);
-							
+
 							$.fancybox.close();
 						}
 					};

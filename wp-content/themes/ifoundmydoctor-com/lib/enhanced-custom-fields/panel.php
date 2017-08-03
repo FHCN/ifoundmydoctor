@@ -18,9 +18,9 @@ class ECF_Panel {
 	/* Only posts in the taxonomy with this slug from this term will have the panel*/
 	var $tax_term;
 	var $tax_slug;
-	
+
 	var $did_save = false;
-	
+
 	// loaded post info
 	var $post_type;
 	var $post_id;
@@ -35,15 +35,15 @@ class ECF_Panel {
 	    $this->post_type = $post_type;
 	    $this->context = $context;
 	    $this->priority = $priority;
-	    
-	    
+
+
 	    // adding ecf styles to admin pages
 	    add_action('admin_enqueue_scripts', array(&$this, 'enqueue_ecf_stylesheet'));
-	    
+
 	    add_action('admin_init', array(&$this, '_attach'));
 		add_action('save_post', array(&$this, 'save'));
 	}
-	
+
     function enqueue_ecf_stylesheet() {
     	$theme_root = get_bloginfo('stylesheet_directory');
 	    wp_enqueue_style(
@@ -51,14 +51,14 @@ class ECF_Panel {
 	    	"$theme_root/lib/enhanced-custom-fields/tpls/style.css"
 	    );
     }
-    
+
 	function _attach() {
 		if (isset($_GET['post'])) {
 			// editing post -- take the post type from GET
 			$post_id = intval($_GET['post']);
 			$this->set_post_id($post_id);
 		}
-		
+
 		if ($this->post_type=='page' && !empty($this->parent_page_path)) {
 			$this->parent_page = get_page_by_path($this->parent_page_path);
 			if (!$this->parent_page) {
@@ -91,18 +91,18 @@ class ECF_Panel {
 			$this->term = get_term_by('slug', $this->tax_term, $this->tax_slug);
 			add_action('admin_footer', array(&$this, '_print_pages_js'));
 		}
-		
+
 	    add_meta_box(
-	    	$this->id, 
-	    	$this->title, 
-	    	array(&$this, 'render'), 
-	    	$this->post_type, 
-	    	$this->context, 
+	    	$this->id,
+	    	$this->title,
+	    	array(&$this, 'render'),
+	    	$this->post_type,
+	    	$this->context,
 	    	$this->priority
 	    );
-	    
+
 	    wp_enqueue_script('ecf', get_bloginfo('stylesheet_directory') . '/lib/enhanced-custom-fields/tpls/ecf.js');
-	    
+
 	    add_action('admin_head', array(&$this, '_hide_panel_by_default'));
 	}
 	function _hide_panel_by_default() {
@@ -144,19 +144,19 @@ class ECF_Panel {
 		}
 	    $this->fields =& $fields;
 	}
-	
+
 	function show_on_page_children($parent_page_path) {
 	    $this->parent_page_path = $parent_page_path;
 	}
-	
+
 	function show_on_page($page_path) {
 	    $this->page_path = $page_path;
 	}
-	
+
 	function show_on_cat($cat_slug) {
 	    $this->cat_slug = $cat_slug;
 	}
-	
+
 	// template file name
 	function show_on_template($template_path) {
 		if ( is_array($template_path) ) {
@@ -167,7 +167,7 @@ class ECF_Panel {
 		}
 		/*
 			The following code was commented out to allow to specify a panel for the "default" template (which is an internal value and not a .php file)
-			
+
 			// Append php extension to the template if it's not there already
 			if (!preg_match('~\.php~', $template_path)) {
 				$template_path = $template_path . '.php';
@@ -175,7 +175,7 @@ class ECF_Panel {
 		*/
 		$this->template_names[] = $template_path;
 	}
-	
+
 	/* Levels start from 1 (toplevel page) */
 	function show_on_level($level) {
 		if ($level < 0 ) {
@@ -183,12 +183,12 @@ class ECF_Panel {
 		}
 		$this->level_limit = $level;
 	}
-	
+
 	function show_on_taxonomy_term($taxonomy_slug, $term_slug) {
 		$this->tax_slug = $taxonomy_slug;
 		$this->tax_term = $term_slug;
 	}
-	
+
 	function show_on_post_format($post_format) {
 		if ( is_array($post_format) ) {
 			foreach ($post_format as $format) {
@@ -198,11 +198,11 @@ class ECF_Panel {
 		}
 		$this->post_formats[] = strtolower($post_format);
 	}
-	
+
 	function set_post_id($post_id) {
 		if ( $rev_post_id = wp_is_post_revision($post_id) )
 			$post_id = $rev_post_id;
-		
+
 	    $this->post_id = $post_id;
 	    foreach ($this->fields as $index=>$f) {
 	    	$this->fields[$index]->post_id = $post_id;
@@ -214,7 +214,7 @@ class ECF_Panel {
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
 			return;
 		}
-		
+
 		if (isset($_REQUEST[$this->get_nonce_name()]) && !wp_verify_nonce($_REQUEST[$this->get_nonce_name()], $this->get_nonce_name())) {
 			return;
 		}
@@ -233,43 +233,43 @@ class ECF_Panel {
 		if ($this->post_type != $current_post->post_type ) {
 			return;
 		}
-		
+
 		// Do not save panel that's not associated with needed parent page(if it's setup)
 		if ($this->post_type=='page' && !empty($this->parent_page_path)) {
 			$needed_parent_page = get_page_by_path($this->parent_page_path);
-			
-			// Fail silently if the needed parent page is not existing in 
+
+			// Fail silently if the needed parent page is not existing in
 			// the current isntall at all
 			if (!$needed_parent_page) {
 				return;
 			}
-			
+
 			// Crawl up the pages tree until the needed parent page is found or tree root is reached
 			while ($needed_parent_page->ID!=$current_post->ID && $current_post->post_parent!=0) {
 				$current_post = get_page($current_post->post_parent);
 			}
-			
+
 			// avoid saving if we didn't found needed page parent in above loop
 			if ($needed_parent_page->ID!=$current_post->ID) {
 				return;
 			}
 		}
-		
+
 		// Do not save panel that's not associated with the current page
 		if ($this->post_type=='page' && !empty($this->page_path)) {
 			$needed_page = get_page_by_path($this->page_path);
-			
-			// Fail silently if the needed parent page is not existing in 
+
+			// Fail silently if the needed parent page is not existing in
 			// the current isntall at all
 			if (!$needed_page) {
 				return;
 			}
-			
+
 			if ($current_post->ID != $needed_page->ID) {
 				return;
 			}
 		}
-		
+
 		if ($this->post_type=='post' && !empty($this->cat_slug)) {
 			$current_post_categories = get_the_category($post_id);
 
@@ -284,7 +284,7 @@ class ECF_Panel {
 				return;
 			}
 		}
-		
+
 		if ($this->post_type=='page' && !empty($this->template_names)) {
 			$chosen_template = get_post_meta($post_id, '_wp_page_template', 1);
 			if ( !in_array($chosen_template, $this->template_names) ) {
@@ -298,7 +298,7 @@ class ECF_Panel {
 	    	$field->set_value_from_input();
 	    	$field->save();
 	    }
-	    
+
 	    $this->did_save = true;
 	}
 }

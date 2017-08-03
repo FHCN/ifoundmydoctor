@@ -112,6 +112,7 @@ function ifd_get_excerpt_max_charlength($old_excerpt, $charlength, $allowed_tags
     return $excerpt;
 }
 
+
 # Add Actions
 add_action('widgets_init', 'theme_widgets_init');
 // Add actions

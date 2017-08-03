@@ -22,7 +22,7 @@ jQuery(function ($) {
 		field.focus();
 		return false;
 	});
-	
+
 	$('.delete-ecf').click(function () {
 		var container = $(this).parents('tr:eq(0)');
 	    var field = container.find('input, textarea, select').not('[name*=original_vals]');
@@ -36,12 +36,12 @@ jQuery(function ($) {
 			return false;
 		}
 	});
-	
+
 	$('.ecf-set-showall').click(function() {
-		$(this).parent().hide().nextAll().show();	
+		$(this).parent().hide().nextAll().show();
 		return false;
 	});
-	
+
 	$('form#post').submit(function() {
 		var required_fields = $('.ecf-field.required');
 		for (var i=0; i < required_fields.length; i++) {

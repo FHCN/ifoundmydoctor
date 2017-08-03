@@ -63,7 +63,7 @@ global $post;
 		        }
 	    }).change();
 	<?php endif; ?>
-	
+
 	<?php if(isset($this->tax_slug) && isset($this->tax_term)): ?>
 		$('#<?php echo $this->tax_slug; ?>checklist input, #<?php echo $this->tax_slug; ?>-pop input').change(function() {
 			var cont = $('#<?php echo $this->id ?>');
@@ -77,7 +77,7 @@ global $post;
 			$('#<?php echo $this->id ?>').hide();
 		};
 	<?php endif; ?>
-	
+
 	<?php if (!empty($this->post_formats)): ?>
 	    $('#post-formats-select input').change(function (e) {
 	    	if( !$(this).is(':checked') ) {
@@ -91,6 +91,6 @@ global $post;
 	        }
 	    }).change();
 	<?php endif ?>
-	
+
 })(jQuery);
 </script>

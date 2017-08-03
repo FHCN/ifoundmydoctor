@@ -1,9 +1,10 @@
-<?php 
+<?php
+
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
- $args = array( 'post_type' => 'news', 'paged' => $paged, 'numberposts' => -1 );	 
+ $args = array( 'post_type' => 'news', 'paged' => $paged, 'numberposts' => -1 );
  $old_var = $wp_query;
  $the_query = new WP_Query($args);
- 
+
  global $more;
 
 if ($the_query->have_posts()) : ?>
@@ -17,11 +18,11 @@ if ($the_query->have_posts()) : ?>
 			<div class="entry">
 				<?php $more = 0; the_content(__('Read the rest of this entry &raquo;')); ?>
 			</div>
-			
+
 			<?php if ( $post->post_type == 'post' ): ?>
 				<p class="postmetadata">
-					<?php the_tags(__('Tags: '), ', ', '<br />'); ?> 
-					<?php _e('Posted in '); the_category(', '); ?> | 
+					<?php the_tags(__('Tags: '), ', ', '<br />'); ?>
+					<?php _e('Posted in '); the_category(', '); ?> |
 					<?php comments_popup_link(__('No Comments'), __('1 Comment'), __('% Comments')); ?>
 				</p>
 			<?php endif ?>
@@ -33,25 +34,25 @@ if ($the_query->have_posts()) : ?>
 		<div class="paging">
 			<span class="number">Page <?php echo max(1, get_query_var('paged')); ?> of <?php echo $the_query->max_num_pages; ?></span>
 			<div class="all-pages">
-			<?php 
+			<?php
 					$big = 999999999; // This needs to be an unlikely integer
 					echo paginate_links(array(
 										'base' => str_replace( $big, '%#%', get_pagenum_link($big) ),
 										'format' => '?paged=%#%',
 										'total' => $the_query->max_num_pages,
 										'current' => max(1, get_query_var('paged')),
-										'mid_size' => 5	
+										'mid_size' => 5
 			)); ?>
 			</div><!-- end of all pages -->
 		</div>
 	<?php endif; ?>
-	
+
 <?php else : ?>
 	<div id="post-0" class="post error404 not-found">
 		<h2>No results found. Please try again.</h2>
-		
+
 		<div class="entry">
-			<?php  
+			<?php
 				if ( is_category() ) { // If this is a category archive
 					printf("<p>Sorry, but there aren't any posts in the %s category yet.</p>", single_cat_title('',false));
 				} else if ( is_date() ) { // If this is a date archive
