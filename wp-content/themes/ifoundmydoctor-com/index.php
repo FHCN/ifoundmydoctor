@@ -1,1 +1,0 @@
-Please go to <a href="<?php echo get_option('home') ?>/wp-admin/options-reading.php">Admin Panel > Settings > Reading</a> and setup "Front page displays" option
