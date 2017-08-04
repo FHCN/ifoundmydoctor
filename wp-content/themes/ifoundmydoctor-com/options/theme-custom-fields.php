@@ -127,19 +127,18 @@ $location_cpt_panel->show_on_level(1);
 // Practice Options
 $practice_panel = new ECF_Panel('practice_panel', 'Practice Options', 'practice', 'normal', 'high');
 
-$practice_fields = array(
-    ECF_Field::factory('text', 'practice_facebook_link', 'Facebook Link'),
-    ECF_Field::factory('text', 'practice_twitter_link', 'Twitter Link'),
-    ECF_Field::factory('text', 'practice_linkedin_link', 'Linked-In Link'),
-    ECF_Field::factory('text', 'practice_pinterest_link', 'Pinterest Link'),
-    ECF_Field::factory('text', 'practice_youtube_link', 'Youtube Link'),
-    ECF_Field::factory('text', 'practice_googleplus_link', 'Google+ Link'),
-    ECF_Field::factory('text', 'practice_instagram_link', 'Instagram Link'),
-    ECF_Field::factory('text', 'practice_website', 'Website'),
-    ECF_Field::factory('image', 'practice_logo', 'Logo'),
-    ECF_Field::factory('text', 'practice_logo_url', 'Logo URL'),
-    ECF_Field::factory('separator', 'doctor_order_separator', 'Doctor Order')
-);
+$practice_fields = array();
+$practice_fields[] = ECF_Field::factory('text', 'practice_facebook_link', 'Facebook Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_twitter_link', 'Twitter Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_linkedin_link', 'Linked-In Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_pinterest_link', 'Pinterest Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_youtube_link', 'Youtube Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_googleplus_link', 'Google+ Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_instagram_link', 'Instagram Link');
+$practice_fields[] = ECF_Field::factory('text', 'practice_website', 'Website');
+$practice_fields[] = ECF_Field::factory('image', 'practice_logo', 'Logo');
+$practice_fields[] = ECF_Field::factory('text', 'practice_logo_url', 'Logo URL');
+$practice_fields[] = ECF_Field::factory('separator', 'doctor_order_separator', 'Doctor Order');
 
 $practice_fields = add_doctor_fields_to_practice_panel($post_id, $practice_fields, $all_doctors);
 
@@ -153,8 +152,10 @@ $practice_panel->add_fields($practice_fields);
  * @param {Array} $all_doctors array of all doctors
  */
 function add_doctor_fields_to_practice_panel ($post_id, $practice_fields, $all_doctors) {
-  if ($post_id === -1)
+  if ($post_id === -1 && $_POST['post_ID'] === -1)
     return $practice_fields;
+  else if ($post_id === -1 && $_POST['post_ID'] > -1)
+    $post_id = $_POST['post_ID'];
 
   // Retrieve only the ids of doctors associated with this practice
   $practice_doctors = ifg_get_practice_doctors($post_id);
@@ -164,23 +165,11 @@ function add_doctor_fields_to_practice_panel ($post_id, $practice_fields, $all_d
       return in_array($doctor->ID, $practice_doctors);
   });
 
-  // Create a new array in which the key is the doctors id and its corresponding value is the doctor's name
-  $doctor_options = array();
+ // Add a doctor order field for each doctor to the $practice_fields array
   foreach ($filtered_doctors as $doctor) {
-      $doctor_options[$doctor->ID] = $doctor->post_title;
+      $practice_fields[] = ECF_Field::factory('select', 'doctor_order_' . $doctor->ID, $doctor->post_title)
+        ->add_options(generate_order_options(count($filtered_doctors)));
   }
-
-  // Generate a dictionary of order values from 1 to the number of doctors. In other words, if there are 3 doctors
-  // it would return an array like: [0 => 1, 1 => 2, 2 => 3]
-  $orderOptions = generate_order_options(count($doctor_options));
-
-  // Create an array of select fields; one for each doctor. The doctors id should be used in the name for uniqueness.
-  $doctor_order_fields = array_map(function ($id, $doctor) use ($orderOptions) {
-      return ECF_Field::factory('select', 'doctor_order_' . $id, $doctor)->add_options($orderOptions);
-  }, array_keys($doctor_options), $doctor_options);
-
-  // Merge the doctor order fields in with the existing fields
-  $practice_fields = array_merge($practice_fields, $doctor_order_fields);
 
   return $practice_fields;
 }
