@@ -128,8 +128,9 @@
 						$logo_format = empty($doctor_logo_url) ? '%s': '<a href="%s">%s</a>';
 
 						if (!empty($doctor_logo)) {
+							$doctor_logo_dir = get_upload_dir() . '/' . $doctor_logo;
 							$doctor_logo = get_upload_url() . '/' . $doctor_logo;
-							$logo_size = getimagesize($doctor_logo);	//0 - width, 1 - height
+							$logo_size = getimagesize($doctor_logo_dir);	//0 - width, 1 - height
 
 							if ( $doctor_logo_url ) {
 								echo '<a href="' . $doctor_logo_url . '">';
