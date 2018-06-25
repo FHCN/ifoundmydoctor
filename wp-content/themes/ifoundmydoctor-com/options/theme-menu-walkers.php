@@ -1,15 +1,15 @@
 <?php
 class IFDFooterWalker extends Walker_Nav_Menu {
 	
-	function start_lvl(&$output, $depth) {
+	function start_lvl(&$output, $depth = 0, $args = []) {
 		$indent = str_repeat("\t", $depth);
 		// $output .= "\n$indent<ul class=\"sub-menu\">\n";
 	}
-	function end_lvl(&$output, $depth) {
+	function end_lvl(&$output, $depth = 0, $args = []) {
 		$indent = str_repeat("\t", $depth);
 		// $output .= "$indent</ul>\n";
 	}
-	function start_el(&$output, $item, $depth, $args) {
+	function start_el(&$output, $item, $depth = 0, $args = [], $id = 0) {
 		global $wp_query;
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
@@ -39,7 +39,7 @@ class IFDFooterWalker extends Walker_Nav_Menu {
 
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
-	function end_el(&$output, $item, $depth) {
+	function end_el(&$output, $item, $depth = 0, $args = []) {
 		// $output .= "</li>\n";
 	}
 }

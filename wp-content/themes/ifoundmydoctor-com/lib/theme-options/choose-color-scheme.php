@@ -35,7 +35,7 @@ class wp_option_choose_color_scheme extends wp_option {
 	    }
 	}
 	
-	function render() {
+	function render($field_html, $colspan = false) {
 		$html = '';
 	    foreach ($this->color_schemes as $color_scheme) {
 	    	$html .= '<div class="color-option">';
