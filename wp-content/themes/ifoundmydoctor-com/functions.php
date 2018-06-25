@@ -917,6 +917,24 @@ function handle_deleted_post( $postId ) {
     }
 }
 
+add_filter( 'manage_article_posts_columns', 'set_custom_edit_article_columns' );
+add_action( 'manage_article_posts_custom_column' , 'custom_article_column', 10, 2 );
+
+
+function set_custom_edit_article_columns ( $columns ) {
+	$columns['expiration'] = __( 'Expiration');
+	return $columns;
+}
+
+function custom_article_column( $column, $post_id ) {
+    switch ( $column ) {
+        case 'expiration' :
+            echo get_post_meta( $post_id, '_expiration', true ); 
+            break;
+
+    }
+}
+
 /**
  * Renders the clickable social media icons
  * @param $facebook_link
