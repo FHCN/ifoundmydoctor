@@ -2,17 +2,25 @@
 # since the last sync.
 while test $# -gt 0; do
     case "$1" in 
-        -u|--sync-uploads)
-            rsync -avP root@ifoundmydoctor.com:/var/www/vhosts/ifoundmydoctor.com/httpdocs/wp-content/uploads/ wp-content/uploads
+        -u|--download-uploads)
+            scp -r -P 18765 ifoundmy@ifoundmydoctor.com:/home/ifoundmy/public_html/wp-content/uploads/ wp-content
             shift
             ;;
-        -d|--sync-db)
+        -t|--download-themes)
+            scp -r -P 18765 ifoundmy@ifoundmydoctor.com:/home/ifoundmy/public_html/wp-content/themes/ wp-content
+            shift
+            ;;
+        -p|--download-plugins)
+            scp -r -P 18765 ifoundmy@ifoundmydoctor.com:/home/ifoundmy/public_html/wp-content/plugins/ wp-content
+            shift
+            ;;
+        -d|--download-db)
             mkdir mysql
-            ssh root@ifoundmydoctor.com "mkdir -p /tmp/db_backup && mysql -u ifmdcom -p$IFMD_DB_PASSWORD -D ifmdcom -N -e 'show tables like \"wp\_live2\_%\"' | xargs mysqldump ifmdcom -u ifmdcom -p$IFMD_DB_PASSWORD > /tmp/db_backup/db_backup_ifmdcom.sql"
-            scp root@ifoundmydoctor.com:/tmp/db_backup/db_backup_ifmdcom.sql $IFMD_HOME/mysql
-            ssh root@ifoundmydoctor.com "rm -rf /tmp/db_backup"
-            echo "UPDATE ifmdcom.wp_live2_options SET option_value='http://127.0.0.1:8080' WHERE option_name='siteurl';" | tee -a $IFMD_HOME/mysql/db_backup_ifmdcom.sql
-            echo "UPDATE ifmdcom.wp_live2_options SET option_value='http://127.0.0.1:8080' WHERE option_name='home';" | tee -a $IFMD_HOME/mysql/db_backup_ifmdcom.sql
+            ssh -p 18765 ifoundmy@ifoundmydoctor.com "mkdir -p /tmp/db_backup && mysql -u ifoundmy_ifmdcom -p$IFMD_DB_PASSWORD -D ifoundmy_ifmdcom -N -e 'show tables like \"wp\_live2\_%\"' | xargs mysqldump ifoundmy_ifmdcom -u ifoundmy_ifmdcom -p$IFMD_DB_PASSWORD > /tmp/db_backup/db_backup_ifmdcom.sql"
+            scp -P 18765 ifoundmy@ifoundmydoctor.com:/tmp/db_backup/db_backup_ifmdcom.sql $IFMD_HOME/mysql
+            ssh -p 18765 ifoundmy@ifoundmydoctor.com "rm -rf /tmp/db_backup"
+            echo "UPDATE ifoundmy_ifmdcom.wp_live2_options SET option_value='http://127.0.0.1:8080' WHERE option_name='siteurl';" | tee -a $IFMD_HOME/mysql/db_backup_ifmdcom.sql
+            echo "UPDATE ifoundmy_ifmdcom.wp_live2_options SET option_value='http://127.0.0.1:8080' WHERE option_name='home';" | tee -a $IFMD_HOME/mysql/db_backup_ifmdcom.sql
             shift
             ;;
         *)
@@ -29,8 +37,8 @@ docker run \
 -it \
 --name ifmd-db \
 -e MYSQL_ROOT_PASSWORD=$IFMD_DB_PASSWORD \
--e MYSQL_DATABASE=ifmdcom \
--e MYSQL_USER=ifmdcom \
+-e MYSQL_DATABASE=ifoundmy_ifmdcom \
+-e MYSQL_USER=ifoundmy_ifmdcom \
 -e MYSQL_PASSWORD=$IFMD_DB_PASSWORD \
 -v /sys/fs/cgroup:/sys/fs/cgroup \
 -v $IFMD_HOME/mysql:/docker-entrypoint-initdb.d \
@@ -46,9 +54,9 @@ docker run \
 --name ifmd-wordpress \
 --cap-add=ALL \
 --link ifmd-db:mysql \
--e WORDPRESS_DB_USER=ifmdcom \
+-e WORDPRESS_DB_USER=ifoundmy_ifmdcom \
 -e WORDPRESS_DB_PASSWORD=$IFMD_DB_PASSWORD \
--e WORDPRESS_DB_NAME=ifmdcom \
+-e WORDPRESS_DB_NAME=ifoundmy_ifmdcom \
 -e WORDPRESS_TABLE_PREFIX=wp_live2_ \
 -v /sys/fs/cgroup:/sys/fs/cgroup \
 -v $IFMD_HOME/wp-content:/var/www/html/wp-content \
