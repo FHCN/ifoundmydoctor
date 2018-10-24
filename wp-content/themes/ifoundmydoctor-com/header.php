@@ -56,9 +56,7 @@ if ( $post && $post->post_type == 'doctor' && $post->post_parent > 0 ) {
 							<li><a target="_blank" href="<?php echo get_option('ifc_linkedin_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/linkedin.png" alt="" /></a></li>
 							<li><a target="_blank" href="<?php echo get_option('ifc_facebook_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/fb.png" alt="" /></a></li>
 							<li><a target="_blank" href="<?php echo get_option('ifc_twitter_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/twitter.png" alt="" /></a></li>
-							<li><a target="_blank" href="<?php echo get_option('ifc_pinit_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/pinterest.png" alt="" /></a></li>
                             <li><a target="_blank" href="<?php echo get_option('ifc_googleplus_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/google_plus.png" alt="" /></a></li>
-							<li><a target="_blank" href="<?php echo get_option('ifc_youtube_link'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/youtube.png" alt="" /></a></li>
 						</ul>
 					</li>
 				</ul><!-- /.widgets -->

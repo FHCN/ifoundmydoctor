@@ -93,7 +93,7 @@ p { line-height:20px; padding-bottom:20px }
 .widget-social img { display:block; width:31px; height:31px }
 
 .site-info { padding-top:25px; height:106px; position:relative; background:url(images/ribbon-bird.png) no-repeat right bottom }
-.site-info p { padding:87px 52px 0 0; letter-spacing:-0.3px; line-height:18px }
+.site-info p { font-size: 18px; padding:87px 52px 0 0; letter-spacing:-0.3px; line-height:18px }
 /*End of Header Right*/
 /*End of Header*/
 
