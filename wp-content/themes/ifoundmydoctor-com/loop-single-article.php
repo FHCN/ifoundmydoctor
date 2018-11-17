@@ -187,8 +187,8 @@
 				<?php if ($hasSocialLinks): ?>
 					<ul class="widgets">
 						<li class="widget-social">
-                            <?php renderActiveSocialIcons($facebook_link, $twitter_link, $linkedin_link, $pinterest_link,
-                                $youtube_link, $googleplus_link, $instagram_link);
+                            <?php renderActiveSocialIcons($facebook_link, $twitter_link, $linkedin_link,
+                                $pinterest_link, $youtube_link, $googleplus_link, $instagram_link);
                             ?>
 						</li>
 					</ul>
