@@ -940,12 +940,12 @@ function custom_article_column( $column, $post_id ) {
  * @param $facebook_link
  * @param $twitter_link
  * @param $linkedin_link
- * @param $pinterest_link
+ * @param $pinterest_link	
  * @param $youtube_link
  * @param $googleplus_link
  */
-function renderActiveSocialIcons($facebook_link, $twitter_link, $linkedin_link, $pinterest_link, $youtube_link,
-                                 $googleplus_link, $instagram_link)
+function renderActiveSocialIcons($facebook_link, $twitter_link, $linkedin_link,
+		$pinterest_link, $youtube_link, $googleplus_link, $instagram_link)
 {
     $stylesheetDir = get_stylesheet_directory_uri();
     if ($facebook_link) {
@@ -956,12 +956,12 @@ function renderActiveSocialIcons($facebook_link, $twitter_link, $linkedin_link, 
     }
     if ($linkedin_link) {
         echo '<a href="' . esc_attr($linkedin_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/linkedin.png" alt="Linked-In Profile" /></a>';
-    }
-    if ($pinterest_link) {
-        echo '<a href="' . esc_attr($pinterest_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/pinterest.png" alt="Pinterest Profile" /></a>';
-    }
-    if ($youtube_link) {
-        echo '<a href="' . esc_attr($youtube_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/youtube.png" alt="Youtube Profile" /></a>';
+	}
+	if ($pinterest_link) {	
+        echo '<a href="' . esc_attr($pinterest_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/pinterest.png" alt="Pinterest Profile" /></a>';	
+    }	
+    if ($youtube_link) {	
+        echo '<a href="' . esc_attr($youtube_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/youtube.png" alt="Youtube Profile" /></a>';	
     }
     if ($googleplus_link) {
         echo '<a href="' . esc_attr($googleplus_link) . '" target="_blank"><img src="' . $stylesheetDir . '/images/google_plus.png" alt="Google+ Profile" /></a>';
